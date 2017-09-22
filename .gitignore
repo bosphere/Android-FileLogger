@@ -1,0 +1,16 @@
+.gradle
+**/local.properties
+**.DS_Store
+.idea
+*.class
+# Since moved to gradle therefore ignore all *.iml files
+*.iml
+# Emacs cache
+*.*~
+build
+**/nbproject/
+misc/scripts/*.json
+misc/scripts/*.xml
+captures
+projectFilesBackup
+.externalNativeBuild/
