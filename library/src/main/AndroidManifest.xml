@@ -2,6 +2,8 @@
           package="com.bosphere.filelogger"
 >
 
-    <application />
+    <application>
+        <service android:name="com.bosphere.filelogger.FileLoggerService"/>
+    </application>
 
 </manifest>

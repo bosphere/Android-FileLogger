@@ -1,10 +1,8 @@
 package com.bosphere.filelogger;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.File;
 
 /**
  * Created by yangbo on 22/9/17.
@@ -12,51 +10,23 @@ import java.io.File;
 
 public class FL {
 
-    private interface Level {
-        int V = 1;
-        int D = 2;
-        int I = 3;
-        int W = 4;
-        int E = 5;
+    private enum Level {
+        V, D, I, W, E
     }
 
     private volatile static boolean sEnabled;
-    private static Context sAppContext;
-    private static Loggable sLogger;
-    private static FileFormatter sFormatter;
-    private static File sDir;
-    private static String sDefaultTag;
+    private volatile static FLConfig sConfig;
 
     public static void setEnabled(boolean enabled) {
         sEnabled = enabled;
     }
 
     public static void init(Context context) {
-        init(context, null);
+        init(new FLConfig.Builder(context).build());
     }
 
-    public static void init(Context context, FLConfig config) {
-        FLUtil.ensureUiThread();
-        sAppContext = context.getApplicationContext();
-        if (config != null) {
-            sLogger = config.b.logger;
-            sFormatter = config.b.formatter;
-            sDir = config.b.dir;
-            sDefaultTag = config.b.defaultTag;
-        }
-
-        if (sLogger == null) {
-            sLogger = new DefaultLog();
-        }
-        if (sFormatter == null) {
-            sFormatter = new DefaultFormatter();
-        }
-        if (sDir == null) {
-            sDir = context.getExternalFilesDir("log");
-        }
-        if (TextUtils.isEmpty(sDefaultTag)) {
-            sDefaultTag = FLUtil.getAppName(context);
-        }
+    public static void init(@NonNull FLConfig config) {
+        sConfig = config;
     }
 
     public static void v(String fmt, Object... args) {
@@ -118,80 +88,51 @@ public class FL {
         log(Level.E, tag, sb.toString());
     }
 
-    private static void log(int level, String tag, String log) {
+    private static void log(Level level, String tag, String log) {
         if (!sEnabled) {
             return;
         }
 
         ensureStatus();
 
+        FLConfig config = sConfig;
         if (TextUtils.isEmpty(tag)) {
-            tag = sDefaultTag;
+            tag = config.b.defaultTag;
         }
-        switch (level) {
-            case Level.V:
-                sLogger.v(tag, log);
-                break;
-            case Level.D:
-                sLogger.d(tag, log);
-                break;
-            case Level.I:
-                sLogger.i(tag, log);
-                break;
-            case Level.W:
-                sLogger.w(tag, log);
-                break;
-            case Level.E:
-                sLogger.e(tag, log);
-                break;
+
+        Loggable logger = config.b.logger;
+        if (logger != null) {
+            switch (level) {
+                case V:
+                    logger.v(tag, log);
+                    break;
+                case D:
+                    logger.d(tag, log);
+                    break;
+                case I:
+                    logger.i(tag, log);
+                    break;
+                case W:
+                    logger.w(tag, log);
+                    break;
+                case E:
+                    logger.e(tag, log);
+                    break;
+            }
+        }
+
+        if (config.b.logToFile && !TextUtils.isEmpty(config.b.dirPath)) {
+            long timeMs = System.currentTimeMillis();
+            String fileName = config.b.formatter.formatFileName(timeMs);
+            String line = config.b.formatter.formatLine(timeMs, level.name(), tag, log);
+            FileLoggerService.logFile(config.b.context, fileName, config.b.dirPath, line);
         }
     }
 
     private static void ensureStatus() {
-        if (sAppContext == null || sLogger == null) {
+        if (sConfig == null) {
             throw new IllegalStateException(
-                    "FileLogger is not initialized. Forgot to call init()?");
-        }
-    }
-
-    public static class DefaultLog implements Loggable {
-
-        @Override
-        public void v(String tag, String log) {
-            Log.v(tag, log);
-        }
-
-        @Override
-        public void d(String tag, String log) {
-            Log.d(tag, log);
-        }
-
-        @Override
-        public void i(String tag, String log) {
-            Log.i(tag, log);
-        }
-
-        @Override
-        public void w(String tag, String log) {
-            Log.w(tag, log);
-        }
-
-        @Override
-        public void e(String tag, String log) {
-            Log.e(tag, log);
-        }
-
-        @Override
-        public void e(String tag, String log, Throwable tr) {
-            Log.e(tag, log, tr);
-        }
-    }
-
-    public static class DefaultFormatter implements FileFormatter {
-
-        @Override
-        public String formatLine(long timeInMillis, String tag, String content) {
-            return null;
+                    "FileLogger is not initialized. Forgot to call FL.init()?");
         }
     }
 }

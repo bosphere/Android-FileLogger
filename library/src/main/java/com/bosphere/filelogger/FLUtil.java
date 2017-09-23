@@ -3,8 +3,10 @@ package com.bosphere.filelogger;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Locale;
@@ -46,6 +48,31 @@ class FLUtil {
     static void ensureUiThread() {
         if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
             throw new IllegalStateException("UI thread only");
+        }
+    }
+
+    static void ensureDir(@NonNull File dir) {
+        if (dir.exists()) {
+            if (dir.isDirectory()) {
+                return;
+            } else if (!dir.delete()) {
+                throw new IllegalStateException(
+                        "failed to delete file that occupies log dir path: [" +
+                                dir.getAbsolutePath() + "]");
+            }
+        }
+
+        if (!dir.mkdir()) {
+            throw new IllegalStateException(
+                    "failed to create log dir: [" + dir.getAbsolutePath() + "]");
+        }
+    }
+
+    static void ensureFile(@NonNull File file) {
+        if (file.exists() && !file.isFile() && !file.delete()) {
+            throw new IllegalStateException(
+                    "failed to delete directory that occupies log file path: [" +
+                            file.getAbsolutePath() + "]");
         }
     }
 }
