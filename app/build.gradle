@@ -29,5 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':filelogger')
-//    compile('com.github.bosphere.android-filelogger:filelogger:1.0.0')
+//    compile('com.github.bosphere.android-filelogger:filelogger:1.0.1')
 }
