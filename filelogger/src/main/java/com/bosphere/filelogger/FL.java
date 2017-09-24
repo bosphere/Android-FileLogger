@@ -31,7 +31,7 @@ public class FL {
     }
 
     public static void v(String fmt, Object... args) {
-        log(V, null, FLUtil.format(fmt, args));
+        v(null, fmt, args);
     }
 
     public static void v(String tag, String fmt, Object... args) {
@@ -39,7 +39,7 @@ public class FL {
     }
 
     public static void d(String fmt, Object... args) {
-        log(D, null, FLUtil.format(fmt, args));
+        d(null, fmt, args);
     }
 
     public static void d(String tag, String fmt, Object... args) {
@@ -55,7 +55,7 @@ public class FL {
     }
 
     public static void w(String fmt, Object... args) {
-        log(W, null, FLUtil.format(fmt, args));
+        w(null, fmt, args);
     }
 
     public static void w(String tag, String fmt, Object... args) {
@@ -63,7 +63,7 @@ public class FL {
     }
 
     public static void e(String fmt, Object... args) {
-        log(E, null, FLUtil.format(fmt, args));
+        e((String) null, fmt, args);
     }
 
     public static void e(String tag, String fmt, Object... args) {
@@ -71,11 +71,15 @@ public class FL {
     }
 
     public static void e(Throwable tr) {
-        e(null, tr, null);
+        e(null, tr);
     }
 
     public static void e(String tag, Throwable tr) {
         e(tag, tr, null);
+    }
+
+    public static void e(Throwable tr, String fmt, Object... args) {
+        e(null, tr, fmt, args);
     }
 
     public static void e(String tag, Throwable tr, String fmt, Object... args) {
