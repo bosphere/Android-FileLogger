@@ -41,16 +41,34 @@ public class FLConfig {
             this.context = context.getApplicationContext();
         }
 
+        /**
+         * Defines how to output to logcat. {@link DefaultLog} is used by default. Pass {@code NULL} to disable output to logcat.
+         *
+         * @param logger
+         * @return
+         */
         public Builder logger(Loggable logger) {
             this.logger = logger;
             return this;
         }
 
+        /**
+         * Defines how each log looks in file, as well as how log files are named.
+         *
+         * @param formatter
+         * @return
+         */
         public Builder formatter(FileFormatter formatter) {
             this.formatter = formatter;
             return this;
         }
 
+        /**
+         * Defines the default log file directory.
+         *
+         * @param dir
+         * @return
+         */
         public Builder dir(File dir) {
             if (dir != null) {
                 dirPath = dir.getAbsolutePath();
@@ -58,26 +76,56 @@ public class FLConfig {
             return this;
         }
 
+        /**
+         * Defines the default tag to use.
+         *
+         * @param tag
+         * @return
+         */
         public Builder defaultTag(String tag) {
             this.defaultTag = tag;
             return this;
         }
 
+        /**
+         * Defines whether to enable logging to files.
+         *
+         * @param logToFile
+         * @return
+         */
         public Builder logToFile(boolean logToFile) {
             this.logToFile = logToFile;
             return this;
         }
 
+        /**
+         * Defines how log files are managed when exceeding limit. Currently supports limit by file count or total size.
+         *
+         * @param retentionPolicy For possible values refer to {@link com.bosphere.filelogger.FLConst.RetentionPolicy}
+         * @return
+         */
         public Builder retentionPolicy(int retentionPolicy) {
             this.retentionPolicy = retentionPolicy;
             return this;
         }
 
+        /**
+         * Defines at maximum how many log files are allowed to be retained.
+         *
+         * @param maxFileCount
+         * @return
+         */
         public Builder maxFileCount(int maxFileCount) {
             this.maxFileCount = maxFileCount;
             return this;
         }
 
+        /**
+         * Defines at maximum how much space log files can occupy before trimming.
+         *
+         * @param maxSize
+         * @return
+         */
         public Builder maxTotalSize(long maxSize) {
             this.maxSize = maxSize;
             return this;
