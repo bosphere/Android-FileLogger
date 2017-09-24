@@ -3,7 +3,6 @@ package com.bosphere.filelogger;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -51,7 +50,7 @@ class FLUtil {
         }
     }
 
-    static void ensureDir(@NonNull File dir) {
+    static void ensureDir(File dir) {
         if (dir.exists()) {
             if (dir.isDirectory()) {
                 return;
@@ -68,7 +67,7 @@ class FLUtil {
         }
     }
 
-    static void ensureFile(@NonNull File file) {
+    static void ensureFile(File file) {
         if (file.exists() && !file.isFile() && !file.delete()) {
             throw new IllegalStateException(
                     "failed to delete directory that occupies log file path: [" +

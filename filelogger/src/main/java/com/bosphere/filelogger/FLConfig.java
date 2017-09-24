@@ -19,7 +19,7 @@ import static com.bosphere.filelogger.FLConst.RetentionPolicy.TOTAL_SIZE;
 
 public class FLConfig {
 
-    Builder b;
+    final Builder b;
 
     private FLConfig(Builder b) {
         this.b = b;

@@ -1,7 +1,6 @@
 package com.bosphere.filelogger;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import static com.bosphere.filelogger.FLConst.Level.D;
@@ -27,7 +26,7 @@ public class FL {
         init(new FLConfig.Builder(context).build());
     }
 
-    public static void init(@NonNull FLConfig config) {
+    public static void init(FLConfig config) {
         sConfig = config;
     }
 

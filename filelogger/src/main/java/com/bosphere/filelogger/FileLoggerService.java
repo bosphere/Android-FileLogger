@@ -3,7 +3,6 @@ package com.bosphere.filelogger;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.BufferedWriter;
@@ -57,7 +56,7 @@ public class FileLoggerService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleIntent(Intent intent) {
         if (intent == null) {
             return;
         }
@@ -70,7 +69,7 @@ public class FileLoggerService extends IntentService {
         mMaxSize = intent.getLongExtra(EXTRA_MAX_SIZE, 0L);
 
         if (TextUtils.isEmpty(fileName)) {
-            throw new IllegalStateException("invalid file name: [" + fileName + "]ø");
+            throw new IllegalStateException("invalid file name: [" + fileName + "]");
         }
 
         if (TextUtils.isEmpty(dirPath)) {
