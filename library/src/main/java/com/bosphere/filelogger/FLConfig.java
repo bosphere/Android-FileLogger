@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.bosphere.filelogger.FLConst.RetentionPolicy.FILE_COUNT;
+import static com.bosphere.filelogger.FLConst.RetentionPolicy.TOTAL_SIZE;
+
 /**
  * Created by yangbo on 22/9/17.
  */
@@ -29,6 +32,9 @@ public class FLConfig {
         String dirPath;
         String defaultTag;
         boolean logToFile;
+        int retentionPolicy = FILE_COUNT;
+        int maxFileCount = FLConst.DEFAULT_MAX_FILE_COUNT;
+        long maxSize = FLConst.DEFAULT_MAX_TOTAL_SIZE;
 
         public Builder(Context context) {
             this.context = context.getApplicationContext();
@@ -61,6 +67,21 @@ public class FLConfig {
             return this;
         }
 
+        public Builder retentionPolicy(int retentionPolicy) {
+            this.retentionPolicy = retentionPolicy;
+            return this;
+        }
+
+        public Builder maxFileCount(int maxFileCount) {
+            this.maxFileCount = maxFileCount;
+            return this;
+        }
+
+        public Builder maxTotalSize(long maxSize) {
+            this.maxSize = maxSize;
+            return this;
+        }
+
         public FLConfig build() {
             if (TextUtils.isEmpty(defaultTag)) {
                 defaultTag = FLUtil.getAppName(context);
@@ -75,8 +96,25 @@ public class FLConfig {
                     if (dir != null) {
                         dirPath = dir.getAbsolutePath();
                     } else {
-                        Log.e("FileLogger", "failed to resolve default log file directory");
+                        Log.e(FLConst.TAG, "failed to resolve default log file directory");
                     }
+                }
+
+                if (retentionPolicy < 0) {
+                    throw new IllegalArgumentException("invalid retention policy: " + retentionPolicy);
+                }
+
+                switch (retentionPolicy) {
+                    case FILE_COUNT:
+                        if (maxFileCount <= 0) {
+                            throw new IllegalArgumentException("max file count must be > 0");
+                        }
+                        break;
+                    case TOTAL_SIZE:
+                        if (maxSize <= 0) {
+                            throw new IllegalArgumentException("max total size must be > 0");
+                        }
+                        break;
                 }
             }
             return new FLConfig(this);

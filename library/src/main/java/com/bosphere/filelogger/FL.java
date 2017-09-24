@@ -4,15 +4,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import static com.bosphere.filelogger.FLConst.Level.D;
+import static com.bosphere.filelogger.FLConst.Level.E;
+import static com.bosphere.filelogger.FLConst.Level.I;
+import static com.bosphere.filelogger.FLConst.Level.V;
+import static com.bosphere.filelogger.FLConst.Level.W;
+
 /**
  * Created by yangbo on 22/9/17.
  */
 
 public class FL {
-
-    private enum Level {
-        V, D, I, W, E
-    }
 
     private volatile static boolean sEnabled;
     private volatile static FLConfig sConfig;
@@ -30,43 +32,43 @@ public class FL {
     }
 
     public static void v(String fmt, Object... args) {
-        log(Level.V, null, FLUtil.format(fmt, args));
+        log(V, null, FLUtil.format(fmt, args));
     }
 
     public static void v(String tag, String fmt, Object... args) {
-        log(Level.V, tag, FLUtil.format(fmt, args));
+        log(V, tag, FLUtil.format(fmt, args));
     }
 
     public static void d(String fmt, Object... args) {
-        log(Level.D, null, FLUtil.format(fmt, args));
+        log(D, null, FLUtil.format(fmt, args));
     }
 
     public static void d(String tag, String fmt, Object... args) {
-        log(Level.D, tag, FLUtil.format(fmt, args));
+        log(D, tag, FLUtil.format(fmt, args));
     }
 
     public static void i(String fmt, Object... args) {
-        log(Level.I, null, FLUtil.format(fmt, args));
+        log(I, null, FLUtil.format(fmt, args));
     }
 
     public static void i(String tag, String fmt, Object... args) {
-        log(Level.I, tag, FLUtil.format(fmt, args));
+        log(I, tag, FLUtil.format(fmt, args));
     }
 
     public static void w(String fmt, Object... args) {
-        log(Level.W, null, FLUtil.format(fmt, args));
+        log(W, null, FLUtil.format(fmt, args));
     }
 
     public static void w(String tag, String fmt, Object... args) {
-        log(Level.W, tag, FLUtil.format(fmt, args));
+        log(W, tag, FLUtil.format(fmt, args));
     }
 
     public static void e(String fmt, Object... args) {
-        log(Level.E, null, FLUtil.format(fmt, args));
+        log(E, null, FLUtil.format(fmt, args));
     }
 
     public static void e(String tag, String fmt, Object... args) {
-        log(Level.E, tag, FLUtil.format(fmt, args));
+        log(E, tag, FLUtil.format(fmt, args));
     }
 
     public static void e(Throwable tr) {
@@ -85,10 +87,10 @@ public class FL {
         if (tr != null) {
             sb.append(FLUtil.formatThrowable(tr));
         }
-        log(Level.E, tag, sb.toString());
+        log(E, tag, sb.toString());
     }
 
-    private static void log(Level level, String tag, String log) {
+    private static void log(FLConst.Level level, String tag, String log) {
         if (!sEnabled) {
             return;
         }
@@ -125,7 +127,8 @@ public class FL {
             long timeMs = System.currentTimeMillis();
             String fileName = config.b.formatter.formatFileName(timeMs);
             String line = config.b.formatter.formatLine(timeMs, level.name(), tag, log);
-            FileLoggerService.logFile(config.b.context, fileName, config.b.dirPath, line);
+            FileLoggerService.logFile(config.b.context, fileName, config.b.dirPath, line,
+                    config.b.retentionPolicy, config.b.maxFileCount, config.b.maxSize);
         }
     }
 
