@@ -4,6 +4,9 @@ Android-FileLogger
 
 A general-purpose logging library with built-in support to save logs to file.
 
+For performance concern, I/O operation is buffered and executed in backgroung thread.
+
+
 Usage
 -----
 ```gradle
