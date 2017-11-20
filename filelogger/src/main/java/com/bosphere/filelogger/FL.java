@@ -86,6 +86,7 @@ public class FL {
         StringBuilder sb = new StringBuilder();
         if (!TextUtils.isEmpty(fmt)) {
             sb.append(FLUtil.format(fmt, args));
+            sb.append("\n");
         }
         if (tr != null) {
             sb.append(FLUtil.formatThrowable(tr));
