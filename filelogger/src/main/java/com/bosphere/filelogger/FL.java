@@ -131,7 +131,7 @@ public class FL {
             long timeMs = System.currentTimeMillis();
             String fileName = config.b.formatter.formatFileName(timeMs);
             String line = config.b.formatter.formatLine(timeMs, level.name(), tag, log);
-            FileLoggerService.logFile(config.b.context, fileName, config.b.dirPath, line,
+            FileLoggerService.instance().logFile(config.b.context, fileName, config.b.dirPath, line,
                     config.b.retentionPolicy, config.b.maxFileCount, config.b.maxSize);
         }
     }

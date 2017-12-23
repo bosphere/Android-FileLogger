@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_PERMISSION) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 finish();
             }
         }

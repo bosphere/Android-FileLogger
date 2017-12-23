@@ -11,7 +11,7 @@ Usage
 -----
 ```gradle
 dependencies {
-    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.2'
+    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.3'
 }
 ```
 
