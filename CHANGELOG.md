@@ -1,6 +1,11 @@
 Change Log
 ============================
 
+## Version 1.0.4
+_2018-03-09_
++ Fix file logging might lead to crashes when file system is unavailable
++ Use Android's Log utility to format throwable
+
 ## Version 1.0.3
 _2017-12-23_
 + Comply with background execution limit imposed in Android Oreo

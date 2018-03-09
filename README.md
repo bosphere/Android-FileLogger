@@ -11,9 +11,11 @@ Usage
 -----
 ```gradle
 dependencies {
-    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.3'
+    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.4'
 }
 ```
+
+Please refer to the sample app for more details.
 
 ```java
 FL.init(new FLConfig.Builder(this)
