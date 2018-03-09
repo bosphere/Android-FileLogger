@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickLog(View view) {
-        FL.d("this is a debug log");
+        FL.v("this is a log");
+        FL.d("this is a log");
+        FL.i("this is a log");
+        FL.w("this is a log");
+        FL.e("this is a log");
+        FL.e("this is a log with exception", new RuntimeException("dummy exception"));
     }
 }

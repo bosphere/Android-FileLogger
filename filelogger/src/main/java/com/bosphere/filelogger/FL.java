@@ -2,6 +2,7 @@ package com.bosphere.filelogger;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import static com.bosphere.filelogger.FLConst.Level.D;
 import static com.bosphere.filelogger.FLConst.Level.E;
@@ -89,7 +90,7 @@ public class FL {
             sb.append("\n");
         }
         if (tr != null) {
-            sb.append(FLUtil.formatThrowable(tr));
+            sb.append(Log.getStackTraceString(tr));
         }
         log(E, tag, sb.toString());
     }

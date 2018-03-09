@@ -24,14 +24,6 @@ class FLUtil {
         return String.format(Locale.ENGLISH, fmt, args);
     }
 
-    static String formatThrowable(Throwable tr) {
-        StringWriter writer = new StringWriter();
-        PrintWriter pw = new PrintWriter(writer);
-        pw.write(tr.toString());
-        tr.printStackTrace(pw);
-        return writer.toString();
-    }
-
     static String getAppName(Context context) {
         ApplicationInfo info = context.getApplicationInfo();
         int stringRes = info.labelRes;
