@@ -42,7 +42,11 @@ class FLUtil {
 
     static boolean ensureDir(File dir) {
         if (dir.exists()) {
-            if (!dir.isDirectory() && !dir.delete()) {
+            if (dir.isDirectory()) {
+                return true;
+            }
+
+            if (!dir.delete()) {
                 FL.w("failed to delete file that occupies log dir path: [" +
                         dir.getAbsolutePath() + "]");
                 return false;
