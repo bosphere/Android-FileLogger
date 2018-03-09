@@ -6,8 +6,6 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Locale;
 
 /**
@@ -42,21 +40,21 @@ class FLUtil {
         }
     }
 
-    static void ensureDir(File dir) {
+    static boolean ensureDir(File dir) {
         if (dir.exists()) {
-            if (dir.isDirectory()) {
-                return;
-            } else if (!dir.delete()) {
-                throw new IllegalStateException(
-                        "failed to delete file that occupies log dir path: [" +
-                                dir.getAbsolutePath() + "]");
+            if (!dir.isDirectory() && !dir.delete()) {
+                FL.w("failed to delete file that occupies log dir path: [" +
+                        dir.getAbsolutePath() + "]");
+                return false;
             }
         }
 
         if (!dir.mkdir()) {
-            throw new IllegalStateException(
-                    "failed to create log dir: [" + dir.getAbsolutePath() + "]");
+            FL.w("failed to create log dir: [" + dir.getAbsolutePath() + "]");
+            return false;
         }
+
+        return true;
     }
 
     static void ensureFile(File file) {

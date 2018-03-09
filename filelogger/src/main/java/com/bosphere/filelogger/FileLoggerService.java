@@ -82,7 +82,7 @@ public class FileLoggerService {
         @Override
         public void run() {
             super.run();
-            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable throwable) {
                     throwable.printStackTrace();
@@ -131,7 +131,9 @@ public class FileLoggerService {
             }
 
             File dir = new File(log.dirPath);
-            FLUtil.ensureDir(dir);
+            if (!FLUtil.ensureDir(dir)) {
+                return;
+            }
 
             File f = new File(log.dirPath, log.fileName);
             String path = f.getAbsolutePath();
