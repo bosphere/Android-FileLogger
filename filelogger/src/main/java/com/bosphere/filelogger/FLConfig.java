@@ -32,6 +32,7 @@ public class FLConfig {
         FileFormatter formatter;
         String dirPath;
         String defaultTag;
+        int minLevel = FLConst.Level.V;
         boolean logToFile;
         int retentionPolicy = FILE_COUNT;
         int maxFileCount = FLConst.DEFAULT_MAX_FILE_COUNT;
@@ -84,6 +85,17 @@ public class FLConfig {
          */
         public Builder defaultTag(String tag) {
             this.defaultTag = tag;
+            return this;
+        }
+
+        /**
+         * Defines the minimum logging level. Default is {@link com.bosphere.filelogger.FLConst.Level#V}.
+         *
+         * @param level
+         * @return
+         */
+        public Builder minLevel(int level) {
+            this.minLevel = level;
             return this;
         }
 

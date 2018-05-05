@@ -1,5 +1,7 @@
 package com.bosphere.filelogger;
 
+import android.util.SparseArray;
+
 /**
  * Created by bo on 23/9/17.
  */
@@ -8,9 +10,21 @@ public interface FLConst {
 
     String TAG = "FileLogger";
 
-    enum Level {
-        V, D, I, W, E
+    interface Level {
+        int V = 0;
+        int D = 1;
+        int I = 2;
+        int W = 3;
+        int E = 4;
     }
+
+    SparseArray<String> LevelName = new SparseArray<String>(5) {{
+        append(Level.V, "V");
+        append(Level.D, "D");
+        append(Level.I, "I");
+        append(Level.W, "W");
+        append(Level.E, "E");
+    }};
 
     interface RetentionPolicy {
         int NONE = 0;

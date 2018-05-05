@@ -11,7 +11,7 @@ Usage
 -----
 ```gradle
 dependencies {
-    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.4'
+    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.5'
 }
 ```
 
@@ -19,14 +19,15 @@ Please refer to the sample app for more details.
 
 ```java
 FL.init(new FLConfig.Builder(this)
-        .logger()          // customise how to hook up with logcat
-        .defaultTag()      // customise default tag
+        .logger(...)       // customise how to hook up with logcat
+        .defaultTag("Default Tag")   // customise default tag
+        .minLevel(FLConst.Level.V)   // customise minimum logging level
         .logToFile(true)   // enable logging to file
-        .dir()             // customise directory to hold log files
-        .formatter()       // customise log format and file name
-        .retentionPolicy() // customise retention strategy
-        .maxFileCount()    // customise how many log files to keep if retention by file count
-        .maxTotalSize()    // customise how much space log files can occupy if retention by total size
+        .dir(directory)    // customise directory to hold log files
+        .formatter(...)    // customise log format and file name
+        .retentionPolicy(FLConst.RetentionPolicy.FILE_COUNT) // customise retention strategy
+        .maxFileCount(FLConst.DEFAULT_MAX_FILE_COUNT)    // customise how many log files to keep if retention by file count
+        .maxTotalSize(FLConst.DEFAULT_MAX_TOTAL_SIZE)    // customise how much space log files can occupy if retention by total size
         .build());
         
         
@@ -56,7 +57,7 @@ API 9 (Android 2.3) and up
 License
 -------
 
-Copyright 2017 Yang Bo
+Copyright 2018 Yang Bo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

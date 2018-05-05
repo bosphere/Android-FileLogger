@@ -19,6 +19,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         FL.init(new FLConfig.Builder(this)
+                .minLevel(FLConst.Level.V)
                 .logToFile(true)
                 .dir(new File(Environment.getExternalStorageDirectory(), "file_logger_demo"))
                 .retentionPolicy(FLConst.RetentionPolicy.FILE_COUNT)

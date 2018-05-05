@@ -95,7 +95,7 @@ public class FL {
         log(E, tag, sb.toString());
     }
 
-    private static void log(FLConst.Level level, String tag, String log) {
+    private static void log(int level, String tag, String log) {
         if (!sEnabled) {
             return;
         }
@@ -103,6 +103,10 @@ public class FL {
         ensureStatus();
 
         FLConfig config = sConfig;
+        if (level < config.b.minLevel) {
+            return;
+        }
+
         if (TextUtils.isEmpty(tag)) {
             tag = config.b.defaultTag;
         }
@@ -131,7 +135,7 @@ public class FL {
         if (config.b.logToFile && !TextUtils.isEmpty(config.b.dirPath)) {
             long timeMs = System.currentTimeMillis();
             String fileName = config.b.formatter.formatFileName(timeMs);
-            String line = config.b.formatter.formatLine(timeMs, level.name(), tag, log);
+            String line = config.b.formatter.formatLine(timeMs, FLConst.LevelName.get(level), tag, log);
             FileLoggerService.instance().logFile(config.b.context, fileName, config.b.dirPath, line,
                     config.b.retentionPolicy, config.b.maxFileCount, config.b.maxSize);
         }

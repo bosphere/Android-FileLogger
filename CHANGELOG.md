@@ -1,6 +1,10 @@
 Change Log
 ============================
 
+## Version 1.0.5
+_2018-05-05_
++ Support customize minimum logging level
+
 ## Version 1.0.4
 _2018-03-09_
 + Fix file logging might lead to crashes when file system is unavailable
