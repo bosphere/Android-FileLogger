@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * Created by bo on 23/9/17.
  */
 
-public class FileLoggerService {
+class FileLoggerService {
 
     private static final Comparator<File> FILE_COMPARATOR = new Comparator<File>() {
         @Override
@@ -28,7 +28,7 @@ public class FileLoggerService {
         }
     };
 
-    public static FileLoggerService instance() {
+    static FileLoggerService instance() {
         return InstanceHolder.INSTANCE;
     }
 
@@ -43,8 +43,8 @@ public class FileLoggerService {
         mQueue = new LinkedBlockingDeque<>();
     }
 
-    public void logFile(Context context, String fileName, String dirPath, String line,
-            int retentionPolicy, int maxFileCount, long maxTotalSize) {
+    void logFile(Context context, String fileName, String dirPath, String line,
+            int retentionPolicy, int maxFileCount, long maxTotalSize, boolean flush) {
         ensureThread();
         boolean addResult = mQueue.offer(new LogData.Builder().context(context)
                 .fileName(fileName)
@@ -53,6 +53,7 @@ public class FileLoggerService {
                 .retentionPolicy(retentionPolicy)
                 .maxFileCount(maxFileCount)
                 .maxSize(maxTotalSize)
+                .flush(flush)
                 .build());
         if (!addResult) {
             FL.w("failed to add to file logger service queue");
@@ -141,6 +142,9 @@ public class FileLoggerService {
                 try {
                     mWriter.write(log.line);
                     mWriter.write("\n");
+                    if (log.flush) {
+                        mWriter.flush();
+                    }
                 } catch (IOException e) {
                     FL.e(FLConst.TAG, e);
                 }
@@ -153,6 +157,9 @@ public class FileLoggerService {
 
                     mWriter.write(log.line);
                     mWriter.write("\n");
+                    if (log.flush) {
+                        mWriter.flush();
+                    }
                 } catch (IOException e) {
                     FL.e(FLConst.TAG, e);
                 }
@@ -261,6 +268,7 @@ public class FileLoggerService {
         final String fileName, dirPath, line;
         final int retentionPolicy, maxFileCount;
         long maxTotalSize;
+        boolean flush;
 
         LogData(Builder b) {
             context = b.context;
@@ -270,6 +278,7 @@ public class FileLoggerService {
             retentionPolicy = b.retentionPolicy;
             maxFileCount = b.maxFileCount;
             maxTotalSize = b.maxTotalSize;
+            flush = b.flush;
         }
 
         static class Builder {
@@ -277,6 +286,7 @@ public class FileLoggerService {
             String fileName, dirPath, line;
             int retentionPolicy, maxFileCount;
             long maxTotalSize;
+            boolean flush;
 
             Builder context(Context context) {
                 this.context = context;
@@ -310,6 +320,11 @@ public class FileLoggerService {
 
             Builder maxSize(long maxSize) {
                 this.maxTotalSize = maxSize;
+                return this;
+            }
+
+            Builder flush(boolean flush) {
+                this.flush = flush;
                 return this;
             }
 

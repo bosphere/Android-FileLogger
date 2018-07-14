@@ -1,6 +1,10 @@
 Change Log
 ============================
 
+## Version 1.0.6
+_2018-07-14_
++ Flush buffer to file immediately when logging at error-level
+
 ## Version 1.0.5
 _2018-05-05_
 + Support customize minimum logging level

@@ -11,7 +11,7 @@ developer.email=[EMAIL]
 */
 
 ext {
-    LIB_VERSION = '1.0.5'
+    LIB_VERSION = '1.0.6'
 
     bintrayRepo = 'maven'
     bintrayName = 'android-file-logger'
