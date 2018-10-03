@@ -4,14 +4,14 @@ Android-FileLogger
 
 A general-purpose logging library with built-in support to save logs to file.
 
-For performance concern, I/O operation is buffered and executed in backgroung thread.
+For performance concern, I/O operation is buffered and executed in background thread.
 
 
 Usage
 -----
 ```gradle
 dependencies {
-    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.6'
+    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
 }
 ```
 

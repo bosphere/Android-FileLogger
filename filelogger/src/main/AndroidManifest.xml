@@ -1,9 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bosphere.filelogger"
->
+<manifest package="com.bosphere.filelogger">
 
     <application>
-        <service android:name="com.bosphere.filelogger.FileLoggerService"/>
     </application>
 
 </manifest>

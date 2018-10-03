@@ -1,6 +1,11 @@
 Change Log
 ============================
 
+## Version 1.0.7
+_2018-10-03_
++ Remove redundant manifest declaration
++ Migrate to AndroidX
+
 ## Version 1.0.6
 _2018-07-14_
 + Flush buffer to file immediately when logging at error-level
